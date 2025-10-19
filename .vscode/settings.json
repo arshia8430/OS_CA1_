@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "proc.h": "c",
+        "kbd.h": "c",
+        "memlayout.h": "c"
+    }
+}
