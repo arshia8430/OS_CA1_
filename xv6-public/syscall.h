@@ -28,3 +28,11 @@
 #define SYS_start_measure 26
 #define SYS_end_measure   27
 #define SYS_print_info    28
+
+#define SYS_slacquire 29
+#define SYS_slrelease 30
+
+#define SYS_rwtest_rlock   31
+#define SYS_rwtest_runlock 32
+#define SYS_rwtest_wlock   33
+#define SYS_rwtest_wunlock 34

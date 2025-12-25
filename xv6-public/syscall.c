@@ -107,6 +107,12 @@ extern int sys_redraw_console(void);
 extern int sys_simple_arithmetic_syscall(void);
 extern int sys_make_duplicate(void);
 extern int sys_show_process_family(void);
+extern int sys_slacquire(void);
+extern int sys_slrelease(void);
+extern int sys_rwtest_rlock(void);
+extern int sys_rwtest_runlock(void);
+extern int sys_rwtest_wlock(void);
+extern int sys_rwtest_wunlock(void);
 
 
 
@@ -138,7 +144,13 @@ static int (*syscalls[])(void) = {
 [SYS_show_process_family] sys_show_process_family,
 [SYS_start_measure] sys_start_measure,
 [SYS_end_measure] sys_end_measure,
-[SYS_print_info] sys_print_info
+[SYS_print_info] sys_print_info,
+[SYS_slacquire] sys_slacquire,
+[SYS_slrelease] sys_slrelease,
+[SYS_rwtest_rlock]   sys_rwtest_rlock,
+[SYS_rwtest_runlock] sys_rwtest_runlock,
+[SYS_rwtest_wlock]   sys_rwtest_wlock,
+[SYS_rwtest_wunlock] sys_rwtest_wunlock
 
 
 };

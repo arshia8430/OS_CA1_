@@ -46,3 +46,9 @@ simple_arithmetic_syscall:
 
 SYSCALL(make_duplicate)
 SYSCALL(show_process_family)
+SYSCALL(slacquire)
+SYSCALL(slrelease)
+SYSCALL(rwtest_rlock)
+SYSCALL(rwtest_runlock)
+SYSCALL(rwtest_wlock)
+SYSCALL(rwtest_wunlock)

@@ -9,6 +9,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct rwlock;
 
 // bio.c
 void            binit(void);
@@ -204,3 +205,20 @@ void            clearpteu(pde_t *pgdir, char *uva);
 #define NELEM(x) (sizeof(x)/sizeof((x)[0]))
 int simple_arithmetic_syscall(int, int);
 
+void            sltestinit(void);
+void            sltestacquire(void);
+void            sltestrelease(void);
+
+// rwlock.c
+void            rwlock_init(struct rwlock*, char*);
+void            rwlock_acquire_read(struct rwlock*);
+void            rwlock_release_read(struct rwlock*);
+void            rwlock_acquire_write(struct rwlock*);
+void            rwlock_release_write(struct rwlock*);
+
+// rwtest.c
+void            rwtestinit(void);
+void            rwtest_rlock(void);
+void            rwtest_runlock(void);
+void            rwtest_wlock(void);
+void            rwtest_wunlock(void);

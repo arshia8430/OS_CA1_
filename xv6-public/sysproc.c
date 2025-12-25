@@ -172,3 +172,22 @@ int sys_end_measure(void) {
 int sys_print_info(void) {
   return print_info();
 }
+
+int
+sys_slacquire(void)
+{
+  sltestacquire();
+  return 0;
+}
+
+int
+sys_slrelease(void)
+{
+  sltestrelease();
+  return 0;
+}
+
+int sys_rwtest_rlock(void)   { rwtest_rlock();   return 0; }
+int sys_rwtest_runlock(void) { rwtest_runlock(); return 0; }
+int sys_rwtest_wlock(void)   { rwtest_wlock();   return 0; }
+int sys_rwtest_wunlock(void) { rwtest_wunlock(); return 0; }

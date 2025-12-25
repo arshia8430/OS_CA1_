@@ -27,6 +27,9 @@ OBJS = \
 	uart.o\
 	vectors.o\
 	vm.o\
+	sltest.o\
+	rwlock.o\
+	rwtest.o\
 
 # Cross-compiling (e.g., on Mac OS X)
 # TOOLPREFIX = i386-jos-elf
@@ -188,6 +191,8 @@ UPROGS=\
 	_rrtest\
 	_fcfstest\
 	_hmp_test\
+	_locksteal\
+	_rwdemo\
 
 
 
@@ -271,6 +276,7 @@ EXTRA=\
 	simple_arithmetic.c \
 	dupfile.c\
 	showfam.c\
+	_rwdemo\
 
 dist:
 	rm -rf dist
