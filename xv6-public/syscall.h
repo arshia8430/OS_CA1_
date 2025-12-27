@@ -36,3 +36,6 @@
 #define SYS_rwtest_runlock 32
 #define SYS_rwtest_wlock   33
 #define SYS_rwtest_wunlock 34
+
+
+#define SYS_getlockstat  35

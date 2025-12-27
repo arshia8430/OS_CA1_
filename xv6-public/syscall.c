@@ -114,7 +114,7 @@ extern int sys_rwtest_runlock(void);
 extern int sys_rwtest_wlock(void);
 extern int sys_rwtest_wunlock(void);
 
-
+extern int sys_getlockstat(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -150,7 +150,8 @@ static int (*syscalls[])(void) = {
 [SYS_rwtest_rlock]   sys_rwtest_rlock,
 [SYS_rwtest_runlock] sys_rwtest_runlock,
 [SYS_rwtest_wlock]   sys_rwtest_wlock,
-[SYS_rwtest_wunlock] sys_rwtest_wunlock
+[SYS_rwtest_wunlock] sys_rwtest_wunlock,
+[SYS_getlockstat] sys_getlockstat,
 
 
 };

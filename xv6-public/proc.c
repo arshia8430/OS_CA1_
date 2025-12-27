@@ -7,6 +7,9 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define CA3_TEST 0
+
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -795,6 +798,7 @@ load_balance(void)
           dequeue(e_core, victim); 
           enqueue(lightest_p_core, victim);
           // Optional debug print
+          if(CA3_TEST)
           cprintf("[LB] Pushed PID %d from E-Core to P-Core\n", victim->pid);
       }
   }

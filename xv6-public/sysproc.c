@@ -6,7 +6,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
-
+#include "spinlock.h"
 int
 sys_fork(void)
 {
@@ -191,3 +191,21 @@ int sys_rwtest_rlock(void)   { rwtest_rlock();   return 0; }
 int sys_rwtest_runlock(void) { rwtest_runlock(); return 0; }
 int sys_rwtest_wlock(void)   { rwtest_wlock();   return 0; }
 int sys_rwtest_wunlock(void) { rwtest_wunlock(); return 0; }
+
+
+int
+sys_getlockstat(void)
+{
+  uint *user;
+  if(argptr(0, (char**)&user, 2 * NCPU * sizeof(uint)) < 0)
+    return -1;
+
+  struct spinlock *lk = &tickslock;
+
+  for(int i = 0; i < NCPU; i++){
+    user[2*i]   = lk->acq_count[i];
+    user[2*i+1] = lk->total_spins[i];
+  }
+
+  return 0;
+}

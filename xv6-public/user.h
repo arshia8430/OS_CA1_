@@ -49,3 +49,5 @@ int rwtest_rlock(void);
 int rwtest_runlock(void);
 int rwtest_wlock(void);
 int rwtest_wunlock(void);
+
+int getlockstat(uint*);

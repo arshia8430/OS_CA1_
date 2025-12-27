@@ -193,6 +193,7 @@ UPROGS=\
 	_hmp_test\
 	_locksteal\
 	_rwdemo\
+	_lockstat\
 
 
 
