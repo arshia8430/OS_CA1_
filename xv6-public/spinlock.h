@@ -29,6 +29,7 @@ struct plock {
   int locked;           
   struct plock_node *head; 
   char *name;           
+  struct proc *owner;
 };
 
 void plock_init(struct plock *pl, char *name);

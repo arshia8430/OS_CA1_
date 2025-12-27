@@ -147,6 +147,7 @@ plock_init(struct plock *pl, char *name)
   pl->locked = 0;
   pl->head = 0;
   pl->name = name;
+  pl->owner = 0;
 }
 
 void
@@ -159,6 +160,7 @@ plock_acquire(struct plock *pl, int priority)
   
   if (xchg(&pl->locked, 1)== 0) {
     pl->locked = 1;
+    pl->owner = myproc();
     release(&pl->lock);
     return;
   }  
@@ -181,11 +183,17 @@ plock_release(struct plock *pl)
 {
   struct plock_node **prev, *current, *highest, **highest_prev;
   int max_priority;
-  
+    struct proc *p = myproc();
+
   acquire(&pl->lock);
-  
+  if(p!= pl->owner) {
+    cprintf(1, "SECURITY VIOLATION: PID %d tried to release lock owned by PID %d\n",
+           p->pid, pl->owner ? pl->owner->pid : -1);
+    panic("plock_release: not owner");
+  }
   if (pl->head == 0) {
     pl->locked = 0;
+    pl->owner = 0;      
     release(&pl->lock);
     return;
   }
@@ -205,7 +213,7 @@ plock_release(struct plock *pl)
   }
   
   *highest_prev = highest->next;
-  
+  pl->owner = highest->proc;
   wakeup(highest->proc);
   
   kfree((char*)highest);

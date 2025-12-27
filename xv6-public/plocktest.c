@@ -2,14 +2,23 @@
 #include "stat.h"
 #include "user.h"
 
+#define TEST_OWNER 0
 void child(int prio)
 {
   printf(1, "[PID %d] Priority %d: trying to acquire\n", getpid(), prio);
   plock_acquire(prio);
-  printf(1, "[PID %d] Priority %d: LOCK ACQUIRED\n", getpid(), prio);
+  printf(1, "[PID %d] Priority %d: LOCK ACQUIRED \n", getpid(), prio);
   sleep(50);
-  printf(1, "[PID %d] Priority %d: releasing\n", getpid(), prio);
+  
+  printf(1, "[PID %d] Priority %d: releasing \n", getpid(), prio);
   plock_release();
+  
+  exit();
+}
+
+void test_wrong_release()
+{
+  plock_release();  
   exit();
 }
 
@@ -17,22 +26,29 @@ int main()
 {
   int i, pid;
   
-  printf(1, "\n=== Plock Test ===\n");
   
   if(fork() == 0) {
-    printf(1, "\n[LOW] PID %d (prio=5) takes lock first\n", getpid());
+    printf(1, "\n[OWNER-1] PID %d takes lock \n", getpid());
     plock_acquire(5);
     
-    sleep(100);
+    printf(1, "[OWNER-1] PID %d now owns \n", getpid());
+    sleep(50);
     
-    printf(1, "\n[LOW] PID %d releasing lock\n", getpid());
+    printf(1, "[OWNER-1] PID %d releasing \n", getpid());
     plock_release();
     exit();
   }
   
-  sleep(20); 
+  sleep(10);
+  if(TEST_OWNER){
+    if(fork() == 0) {
+      test_wrong_release();
+    }
+}
   
-  int priorities[] = {10, 20, 30, 40, 50};
+  sleep(10);
+  
+  int priorities[] = {2,3,1,5,4};
   
   for(i = 0; i < 5; i++) {
     pid = fork();
@@ -41,8 +57,11 @@ int main()
     }
     sleep(5);
   }
-  for(i = 0; i < 6; i++) {
+  
+  for(i = 0; i < 7; i++) {
     wait();
-  }  
+  }
+  
+ 
   exit();
 }

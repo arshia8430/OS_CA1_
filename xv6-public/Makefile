@@ -195,7 +195,7 @@ UPROGS=\
 	_rwdemo\
 	_lockstat\
 	_plocktest\
-
+	_LOCKtest2
 
 
 
