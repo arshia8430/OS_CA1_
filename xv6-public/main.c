@@ -43,6 +43,8 @@ main(void)
   sltestinit();
   rwtestinit();
   userinit();      // first user process
+  plock_init(&global_plock, "global_plock");
+
   mpmain();        // finish this processor's setup
 }
 

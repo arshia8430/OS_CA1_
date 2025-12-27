@@ -116,6 +116,9 @@ extern int sys_rwtest_wunlock(void);
 
 extern int sys_getlockstat(void);
 
+extern int sys_plock_acquire(void);
+extern int sys_plock_release(void);
+
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
 [SYS_exit]    sys_exit,
@@ -152,6 +155,8 @@ static int (*syscalls[])(void) = {
 [SYS_rwtest_wlock]   sys_rwtest_wlock,
 [SYS_rwtest_wunlock] sys_rwtest_wunlock,
 [SYS_getlockstat] sys_getlockstat,
+[SYS_plock_acquire] sys_plock_acquire,
+[SYS_plock_release] sys_plock_release,
 
 
 };

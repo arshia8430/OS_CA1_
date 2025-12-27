@@ -17,4 +17,25 @@ struct spinlock {
   uint total_spins[NCPU];
 };
 
+
+struct plock_node {
+  struct proc *proc;      
+  int priority;         
+  struct plock_node *next; 
+};
+
+struct plock {
+  struct spinlock lock;  
+  int locked;           
+  struct plock_node *head; 
+  char *name;           
+};
+
+void plock_init(struct plock *pl, char *name);
+void plock_acquire(struct plock *pl, int priority);
+void plock_release(struct plock *pl);
+
+extern struct plock global_plock;
+
+
 #endif

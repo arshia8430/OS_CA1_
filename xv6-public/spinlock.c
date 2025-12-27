@@ -138,3 +138,77 @@ popcli(void)
     sti();
 }
 
+struct plock global_plock;
+
+void
+plock_init(struct plock *pl, char *name)
+{
+  initlock(&pl->lock, "plock");
+  pl->locked = 0;
+  pl->head = 0;
+  pl->name = name;
+}
+
+void
+plock_acquire(struct plock *pl, int priority)
+{
+  struct plock_node *node;
+  struct proc *p = myproc();
+  
+  acquire(&pl->lock);
+  
+  if (xchg(&pl->locked, 1)== 0) {
+    pl->locked = 1;
+    release(&pl->lock);
+    return;
+  }  
+  node = (struct plock_node*)kalloc();
+  if(node == 0)
+    panic("plock_acquire: kalloc failed");
+    
+  node->proc = p;
+  node->priority = priority;
+  node->next = pl->head;
+  pl->head = node;
+  
+  sleep(p, &pl->lock);
+  
+  release(&pl->lock);
+}
+
+void
+plock_release(struct plock *pl)
+{
+  struct plock_node **prev, *current, *highest, **highest_prev;
+  int max_priority;
+  
+  acquire(&pl->lock);
+  
+  if (pl->head == 0) {
+    pl->locked = 0;
+    release(&pl->lock);
+    return;
+  }
+  
+  highest_prev = &pl->head;
+  highest = pl->head;
+  max_priority = highest->priority;
+  
+  for (prev = &pl->head, current = pl->head; 
+       current != 0; 
+       prev = &current->next, current = current->next) {
+    if (current->priority > max_priority) {
+      highest_prev = prev;
+      highest = current;
+      max_priority = current->priority;
+    }
+  }
+  
+  *highest_prev = highest->next;
+  
+  wakeup(highest->proc);
+  
+  kfree((char*)highest);
+  
+  release(&pl->lock);
+}

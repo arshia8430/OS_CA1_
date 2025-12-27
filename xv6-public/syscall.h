@@ -39,3 +39,6 @@
 
 
 #define SYS_getlockstat  35
+
+#define SYS_plock_acquire 36
+#define SYS_plock_release 37

@@ -209,3 +209,25 @@ sys_getlockstat(void)
 
   return 0;
 }
+
+
+
+
+int
+sys_plock_acquire(void)
+{
+  int priority;
+  
+  if(argint(0, &priority) < 0)
+    return -1;
+  
+  plock_acquire(&global_plock, priority);
+  return 0;
+}
+
+int
+sys_plock_release(void)
+{
+  plock_release(&global_plock);
+  return 0;
+}

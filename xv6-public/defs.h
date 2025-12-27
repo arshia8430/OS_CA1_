@@ -222,3 +222,11 @@ void            rwtest_rlock(void);
 void            rwtest_runlock(void);
 void            rwtest_wlock(void);
 void            rwtest_wunlock(void);
+
+
+// plock
+struct plock;
+void            plock_init(struct plock*, char*);
+void            plock_acquire(struct plock*, int);
+void            plock_release(struct plock*);
+extern struct plock global_plock;
